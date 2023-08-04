@@ -1,3 +1,6 @@
+<!-- Make it so you can change song -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,13 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>js music player</title>
     <link rel="stylesheet" href="s.css">
-    <!-- <script src="https://kit.fontawesome.com/2c99a38b7a.js" crossorigin="anonymous"></script> -->
     <script src="https://kit.fontawesome.com/a09ac47364.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
+    <!-- container class whole app -->
     <div class="container">
+        <!-- containg music player -->
         <div class="music-player">
+            <!-- navigation bar at top -->
             <nav>
                 <div class="circle">
                     <i class="fa-solid fa-angle-left"></i>
@@ -21,8 +26,77 @@
                 </div>
             </nav>
 
+            <!-- img -->
+            <img src="media/2396.jpg" alt="song-img" class="song-img">
+            <!-- song title -->
+            <h1>song title</h1>
+            <!-- artist name -->
+            <p>artists name</p>
+
+            <audio id="song">
+                <source src="media/Beamic - Waldohr 2 (320 kbps).mp3" type="audio/mpeg">
+            </audio>
+
+            <input type="range" value="0" id="progress">
+
+            <div class="controls">
+                <div>
+                    <i class="fa-solid fa-backward"></i>
+                </div>
+                <div onclick="playPause()">
+                    <i class="fa-solid fa-play" id="controlIcon"></i>
+                </div>
+                <div>
+                    <i class="fa-solid fa-forward"></i>
+                </div>
+            </div>
+
         </div>
     </div>
     
+<script>
+
+    // grab progress bar - input field value 0 type = range
+    let progress = document.getElementById("progress");
+    // grab song element - audio html element
+    let song = document.getElementById("song");
+    // grab control icon element
+    let controlIcon = document.getElementById("controlIcon");
+
+    console.log(song);
+    console.log(song.onloadedmetadata);
+    song.onloadedmetadata = function(){
+        progress.max = song.duration;
+        progress.value = song.currentTime;
+    }
+
+    function playPause(){
+        if (controlIcon.classList.contains("fa-pause")) {
+            song.pause();
+            controlIcon.classList.remove("fa-pause")
+            controlIcon.classList.add("fa-play")
+        }
+        else {
+            song.play();
+            controlIcon.classList.remove("fa-play");
+            controlIcon.classList.add("fa-pause");
+        }
+    }
+
+    if (song.pause){
+        setInterval(()=> {
+            progress.value = song.currentTime;
+        },500);
+        
+    } 
+
+    progress.onchange = function(){
+        song.play();
+        song.currentTime = progress.value;
+        
+        controlIcon.classList.add("fa-pause");
+        controlIcon.classList.remove("fa-play");
+    }
+</script>
 </body>
 </html>
