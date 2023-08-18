@@ -33,17 +33,25 @@
             <!-- artist name -->
             <p>artists name</p>
 
+            <!-- an audio element -->
             <audio id="song">
+                <!-- we add a source to file locations -->
+                <!-- you would require a function for this in something like vscode -->
                 <source src="media/Beamic - Waldohr 2 (320 kbps).mp3" type="audio/mpeg">
             </audio>
 
+            <!-- our input element -->
             <input type="range" value="0" id="progress">
 
+            <!-- our division element to contain controls -->
             <div class="controls">
+                <!-- icon container for forwards backwards play and pause -->
                 <div>
                     <i class="fa-solid fa-backward"></i>
                 </div>
+                <!-- play and pause utilises a function -->
                 <div onclick="playPause()">
+                    <!--  -->
                     <i class="fa-solid fa-play" id="controlIcon"></i>
                 </div>
                 <div>
@@ -63,19 +71,38 @@
     // grab control icon element
     let controlIcon = document.getElementById("controlIcon");
 
-    console.log(song);
-    console.log(song.onloadedmetadata);
+    // console.log(song);
+    // console.log(song.onloadedmetadata);
+
+    // song is the elementId 
+    // access the onloadmetadata
+    // the function will grab the progress element
+    // the progress input will grab the max
+    // it will set the max song.duration
+    // it will grab the progress value
+    // and set to song.current time
     song.onloadedmetadata = function(){
         progress.max = song.duration;
         progress.value = song.currentTime;
     }
 
+    // our function playPause
     function playPause(){
+        // if icon classlist contains = pause
+        // function executes
+        // execute song.pause
+        // remove pause icon 
+        // add play icon
         if (controlIcon.classList.contains("fa-pause")) {
             song.pause();
             controlIcon.classList.remove("fa-pause")
             controlIcon.classList.add("fa-play")
         }
+        // else classList contains = play
+        // function executes
+        // execute song.play
+        // remove play
+        // add pause
         else {
             song.play();
             controlIcon.classList.remove("fa-play");
@@ -83,17 +110,24 @@
         }
     }
 
+    // if song.pause is true
     if (song.pause){
+        // set interval 
         setInterval(()=> {
+            // progress.value iterates every 500 miliseconds to add to song current time
             progress.value = song.currentTime;
         },500);
-        
     } 
 
+    // for moving the bar
+    // execute song play() - change icons play song
+    // song current time = progress value
     progress.onchange = function(){
         song.play();
         song.currentTime = progress.value;
-        
+        // remove play
+        // add pause
+                
         controlIcon.classList.add("fa-pause");
         controlIcon.classList.remove("fa-play");
     }
